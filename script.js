@@ -457,6 +457,11 @@ function generateSetTracker(exerciseIndex) {
     
     setsGrid.innerHTML = '';
     
+    // Reset tracker appearance for new exercise
+    const tracker = document.getElementById('set-tracker');
+    tracker.style.background = '#f0f8ff';
+    tracker.style.borderColor = '#e6f3ff';
+    
     for (let i = 0; i < totalSets; i++) {
         const setItem = document.createElement('div');
         setItem.className = 'set-item';
@@ -478,6 +483,12 @@ function generateSetTracker(exerciseIndex) {
     }
     
     updateSetProgress(exerciseIndex);
+    
+    // Show completion feedback if exercise is already completed
+    if (workoutProgress[currentDay][exerciseIndex] && 
+        workoutProgress[currentDay][exerciseIndex].completed) {
+        showExerciseCompletionFeedback();
+    }
 }
 
 function toggleSet(exerciseIndex, setIndex) {
@@ -516,8 +527,21 @@ function updateSetProgress(exerciseIndex) {
         ? workoutProgress[currentDay][exerciseIndex].sets.filter(set => set).length 
         : 0;
     
-    document.getElementById('completed-sets').textContent = completedSets;
-    document.getElementById('total-sets').textContent = '4';
+    const progress = document.getElementById('exercise-progress');
+    
+    // Reset progress display style
+    progress.style.background = '#f8f9ff';
+    progress.style.color = '#667eea';
+    
+    // Check if exercise is completed
+    if (workoutProgress[currentDay][exerciseIndex] && 
+        workoutProgress[currentDay][exerciseIndex].completed) {
+        progress.innerHTML = '<strong>🎉 Exercise Complete! Great job!</strong>';
+        progress.style.background = '#4caf50';
+        progress.style.color = 'white';
+    } else {
+        progress.innerHTML = `<span id="completed-sets">${completedSets}</span> of <span id="total-sets">4</span> sets completed`;
+    }
 }
 
 function checkExerciseCompletion(exerciseIndex) {
