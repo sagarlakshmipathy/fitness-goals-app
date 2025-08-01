@@ -129,11 +129,13 @@ let currentExercise = null;
 // Progress tracking
 let workoutProgress = {};
 let workoutHistory = [];
+let exerciseSettings = {};
 
 // Initialize progress from localStorage
 function initializeProgress() {
     const savedProgress = localStorage.getItem('fitnessProgress');
     const savedHistory = localStorage.getItem('fitnessHistory');
+    const savedSettings = localStorage.getItem('exerciseSettings');
     
     if (savedProgress) {
         workoutProgress = JSON.parse(savedProgress);
@@ -145,13 +147,13 @@ function initializeProgress() {
             3: {}
         };
         workoutData[1].exercises.forEach((_, index) => {
-            workoutProgress[1][index] = { completed: false, sets: [false, false, false, false] };
+            workoutProgress[1][index] = { completed: false, sets: [] };
         });
         workoutData[2].exercises.forEach((_, index) => {
-            workoutProgress[2][index] = { completed: false, sets: [false, false, false, false] };
+            workoutProgress[2][index] = { completed: false, sets: [] };
         });
         workoutData[3].exercises.forEach((_, index) => {
-            workoutProgress[3][index] = { completed: false, sets: [false, false, false, false] };
+            workoutProgress[3][index] = { completed: false, sets: [] };
         });
         saveProgress();
     }
@@ -159,12 +161,31 @@ function initializeProgress() {
     if (savedHistory) {
         workoutHistory = JSON.parse(savedHistory);
     }
+    
+    if (savedSettings) {
+        exerciseSettings = JSON.parse(savedSettings);
+    } else {
+        // Initialize default exercise settings
+        exerciseSettings = {};
+        [1, 2, 3].forEach(day => {
+            exerciseSettings[day] = {};
+            workoutData[day].exercises.forEach((_, index) => {
+                exerciseSettings[day][index] = {
+                    sets: 4,
+                    reps: 8,
+                    weight: 10.0
+                };
+            });
+        });
+        saveProgress();
+    }
 }
 
 // Save progress to localStorage
 function saveProgress() {
     localStorage.setItem('fitnessProgress', JSON.stringify(workoutProgress));
     localStorage.setItem('fitnessHistory', JSON.stringify(workoutHistory));
+    localStorage.setItem('exerciseSettings', JSON.stringify(exerciseSettings));
 }
 
 // Add workout completion to history
@@ -250,6 +271,14 @@ closeModalButton.addEventListener('click', closeModal);
 // Settings menu listeners
 document.getElementById('settings-btn').addEventListener('click', toggleSettings);
 document.getElementById('history-back-button').addEventListener('click', showDaySelection);
+
+// Adjustment button listeners
+document.getElementById('sets-minus').addEventListener('click', () => adjustValue('sets', -1));
+document.getElementById('sets-plus').addEventListener('click', () => adjustValue('sets', 1));
+document.getElementById('reps-minus').addEventListener('click', () => adjustValue('reps', -1));
+document.getElementById('reps-plus').addEventListener('click', () => adjustValue('reps', 1));
+document.getElementById('weight-minus').addEventListener('click', () => adjustValue('weight', -2.5));
+document.getElementById('weight-plus').addEventListener('click', () => adjustValue('weight', 2.5));
 
 function toggleSettings() {
     const dropdown = document.getElementById('settings-dropdown');
@@ -425,10 +454,18 @@ function showExerciseDetails(exerciseIndex) {
     
     currentExercise = exerciseIndex;
     const exercise = workoutData[currentDay].exercises[exerciseIndex];
+    const settings = exerciseSettings[currentDay][exerciseIndex];
     
     // Update exercise details
     document.getElementById('exercise-name').textContent = exercise.name;
-    document.getElementById('weight-range').textContent = exercise.weightRange;
+    
+    // Update adjustable values
+    document.getElementById('sets').textContent = settings.sets;
+    document.getElementById('reps').textContent = settings.reps;
+    document.getElementById('weight').textContent = settings.weight.toFixed(1);
+    
+    // Update button states
+    updateAdjustmentButtons();
     
     // Update description
     const descriptionEl = document.getElementById('exercise-description');
@@ -436,6 +473,7 @@ function showExerciseDetails(exerciseIndex) {
         <h4>How to perform:</h4>
         <p>${exercise.description}</p>
         <p><strong>Tips:</strong> ${exercise.tips}</p>
+        <p><strong>Original weight range:</strong> ${exercise.weightRange}</p>
     `;
     
     // Generate set tracker
@@ -453,7 +491,8 @@ function showExerciseDetails(exerciseIndex) {
 
 function generateSetTracker(exerciseIndex) {
     const setsGrid = document.getElementById('sets-grid');
-    const totalSets = 4;
+    const settings = exerciseSettings[currentDay][exerciseIndex];
+    const totalSets = settings.sets;
     
     setsGrid.innerHTML = '';
     
@@ -462,14 +501,28 @@ function generateSetTracker(exerciseIndex) {
     tracker.style.background = '#f0f8ff';
     tracker.style.borderColor = '#e6f3ff';
     
+    // Ensure progress array matches current sets count
+    if (!workoutProgress[currentDay][exerciseIndex]) {
+        workoutProgress[currentDay][exerciseIndex] = { completed: false, sets: [] };
+    }
+    
+    const progress = workoutProgress[currentDay][exerciseIndex];
+    
+    // Adjust sets array length to match current settings
+    while (progress.sets.length < totalSets) {
+        progress.sets.push(false);
+    }
+    if (progress.sets.length > totalSets) {
+        progress.sets = progress.sets.slice(0, totalSets);
+    }
+    
     for (let i = 0; i < totalSets; i++) {
         const setItem = document.createElement('div');
         setItem.className = 'set-item';
         setItem.dataset.setIndex = i;
         
         // Check if set is completed
-        if (workoutProgress[currentDay][exerciseIndex] && 
-            workoutProgress[currentDay][exerciseIndex].sets[i]) {
+        if (progress.sets[i]) {
             setItem.classList.add('completed');
         }
         
@@ -485,8 +538,7 @@ function generateSetTracker(exerciseIndex) {
     updateSetProgress(exerciseIndex);
     
     // Show completion feedback if exercise is already completed
-    if (workoutProgress[currentDay][exerciseIndex] && 
-        workoutProgress[currentDay][exerciseIndex].completed) {
+    if (progress.completed) {
         showExerciseCompletionFeedback();
     }
 }
@@ -496,19 +548,20 @@ function toggleSet(exerciseIndex, setIndex) {
     if (!workoutProgress[currentDay][exerciseIndex]) {
         workoutProgress[currentDay][exerciseIndex] = {
             completed: false,
-            sets: [false, false, false, false]
+            sets: []
         };
     }
     
+    const progress = workoutProgress[currentDay][exerciseIndex];
+    
     // Toggle set completion
-    workoutProgress[currentDay][exerciseIndex].sets[setIndex] = 
-        !workoutProgress[currentDay][exerciseIndex].sets[setIndex];
+    progress.sets[setIndex] = !progress.sets[setIndex];
     
     // Update UI
     const setItem = document.querySelector(`[data-set-index="${setIndex}"]`);
     const checkbox = setItem.querySelector('.set-checkbox');
     
-    if (workoutProgress[currentDay][exerciseIndex].sets[setIndex]) {
+    if (progress.sets[setIndex]) {
         setItem.classList.add('completed');
         checkbox.textContent = '✓';
     } else {
@@ -523,6 +576,7 @@ function toggleSet(exerciseIndex, setIndex) {
 }
 
 function updateSetProgress(exerciseIndex) {
+    const settings = exerciseSettings[currentDay][exerciseIndex];
     const completedSets = workoutProgress[currentDay][exerciseIndex] 
         ? workoutProgress[currentDay][exerciseIndex].sets.filter(set => set).length 
         : 0;
@@ -540,8 +594,53 @@ function updateSetProgress(exerciseIndex) {
         progress.style.background = '#4caf50';
         progress.style.color = 'white';
     } else {
-        progress.innerHTML = `<span id="completed-sets">${completedSets}</span> of <span id="total-sets">4</span> sets completed`;
+        progress.innerHTML = `<span id="completed-sets">${completedSets}</span> of <span id="total-sets">${settings.sets}</span> sets completed`;
     }
+}
+
+// Adjustment functions
+function adjustValue(type, delta) {
+    if (!currentDay || currentExercise === null) return;
+    
+    const settings = exerciseSettings[currentDay][currentExercise];
+    
+    if (type === 'sets') {
+        const newValue = Math.max(1, Math.min(10, settings.sets + delta));
+        settings.sets = newValue;
+        document.getElementById('sets').textContent = newValue;
+        
+        // Regenerate set tracker with new count
+        generateSetTracker(currentExercise);
+    } else if (type === 'reps') {
+        const newValue = Math.max(1, Math.min(50, settings.reps + delta));
+        settings.reps = newValue;
+        document.getElementById('reps').textContent = newValue;
+    } else if (type === 'weight') {
+        const newValue = Math.max(0, Math.min(200, settings.weight + delta));
+        settings.weight = newValue;
+        document.getElementById('weight').textContent = newValue.toFixed(1);
+    }
+    
+    updateAdjustmentButtons();
+    saveProgress();
+}
+
+function updateAdjustmentButtons() {
+    if (!currentDay || currentExercise === null) return;
+    
+    const settings = exerciseSettings[currentDay][currentExercise];
+    
+    // Update sets buttons
+    document.getElementById('sets-minus').disabled = settings.sets <= 1;
+    document.getElementById('sets-plus').disabled = settings.sets >= 10;
+    
+    // Update reps buttons
+    document.getElementById('reps-minus').disabled = settings.reps <= 1;
+    document.getElementById('reps-plus').disabled = settings.reps >= 50;
+    
+    // Update weight buttons
+    document.getElementById('weight-minus').disabled = settings.weight <= 0;
+    document.getElementById('weight-plus').disabled = settings.weight >= 200;
 }
 
 function checkExerciseCompletion(exerciseIndex) {
