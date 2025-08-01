@@ -521,6 +521,9 @@ function showDaySelection() {
     daySelection.style.display = 'flex';
     workoutDetails.style.display = 'none';
     exerciseDetails.style.display = 'none';
+    document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('history-view').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'none';
     currentDay = null;
     currentExercise = null;
     updateDayCompletionStatus();
@@ -561,6 +564,9 @@ function showWorkoutDetails() {
     daySelection.style.display = 'none';
     workoutDetails.style.display = 'block';
     exerciseDetails.style.display = 'none';
+    document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('history-view').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'none';
     
     // Add fade-in animation
     workoutDetails.classList.add('fade-in');
@@ -615,6 +621,9 @@ function showExerciseDetails(exerciseIndex) {
         daySelection.style.display = 'none';
         workoutDetails.style.display = 'none';
         exerciseDetails.style.display = 'block';
+        document.getElementById('settings-page').style.display = 'none';
+        document.getElementById('history-view').style.display = 'none';
+        document.getElementById('detailed-workouts-view').style.display = 'none';
         
         // Add fade-in animation
         exerciseDetails.classList.add('fade-in');
