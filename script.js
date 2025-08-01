@@ -1,113 +1,113 @@
 // Workout data structure
 const workoutData = {
     1: {
-        title: "Day 1 - Chest & Triceps",
+        title: "day 1 - chest & triceps",
         exercises: [
             {
-                name: "Push Ups",
-                description: "Classic bodyweight exercise targeting chest, shoulders, and triceps.",
-                weightRange: "Bodyweight",
-                tips: "Keep your body in a straight line from head to heels. Lower until chest nearly touches the ground."
+                name: "push ups",
+                description: "classic bodyweight exercise targeting chest, shoulders, and triceps.",
+                weightRange: "bodyweight",
+                tips: "keep your body in a straight line from head to heels. lower until chest nearly touches the ground."
             },
             {
-                name: "Dumbbell Bench Press",
-                description: "Fundamental chest exercise using dumbbells for better range of motion.",
+                name: "dumbbell bench press",
+                description: "fundamental chest exercise using dumbbells for better range of motion.",
                 weightRange: "8-15 lbs per dumbbell",
-                tips: "Control the weight down slowly, press up explosively. Keep shoulder blades squeezed together."
+                tips: "control the weight down slowly, press up explosively. keep shoulder blades squeezed together."
             },
             {
-                name: "Incline Dumbbell Press",
-                description: "Targets upper chest and front deltoids effectively.",
+                name: "incline dumbbell press",
+                description: "targets upper chest and front deltoids effectively.",
                 weightRange: "5-12 lbs per dumbbell",
-                tips: "Set bench to 30-45 degree angle. Press up and slightly together at the top."
+                tips: "set bench to 30-45 degree angle. press up and slightly together at the top."
             },
             {
-                name: "Tricep Dips",
-                description: "Bodyweight exercise that targets triceps and chest.",
-                weightRange: "Bodyweight",
-                tips: "Keep elbows close to body. Lower until upper arms are parallel to ground."
+                name: "tricep dips",
+                description: "bodyweight exercise that targets triceps and chest.",
+                weightRange: "bodyweight",
+                tips: "keep elbows close to body. lower until upper arms are parallel to ground."
             },
             {
-                name: "Overhead Tricep Extension",
-                description: "Isolation exercise for triceps using dumbbell.",
+                name: "overhead tricep extension",
+                description: "isolation exercise for triceps using dumbbell.",
                 weightRange: "5-10 lbs",
-                tips: "Keep elbows stationary and close to head. Lower weight behind head slowly."
+                tips: "keep elbows stationary and close to head. lower weight behind head slowly."
             }
         ]
     },
     2: {
-        title: "Day 2 - Lats & Biceps",
+        title: "day 2 - lats & biceps",
         exercises: [
             {
-                name: "Bent Over Dumbbell Rows",
-                description: "Compound movement targeting lats, rhomboids, and rear delts.",
+                name: "bent over dumbbell rows",
+                description: "compound movement targeting lats, rhomboids, and rear delts.",
                 weightRange: "8-15 lbs per dumbbell",
-                tips: "Hinge at hips, keep back straight. Pull dumbbells to ribs, squeeze shoulder blades."
+                tips: "hinge at hips, keep back straight. pull dumbbells to ribs, squeeze shoulder blades."
             },
             {
-                name: "Single Arm Dumbbell Row",
-                description: "Unilateral back exercise for better muscle activation.",
+                name: "single arm dumbbell row",
+                description: "unilateral back exercise for better muscle activation.",
                 weightRange: "10-18 lbs",
-                tips: "Support yourself on bench. Pull dumbbell to hip, keep core tight."
+                tips: "support yourself on bench. pull dumbbell to hip, keep core tight."
             },
             {
-                name: "Lat Pulldowns (Resistance Band)",
-                description: "Targets latissimus dorsi using resistance band.",
-                weightRange: "Medium resistance band",
-                tips: "Pull band down to chest, squeeze lats at bottom. Control the return."
+                name: "lat pulldowns (resistance band)",
+                description: "targets latissimus dorsi using resistance band.",
+                weightRange: "medium resistance band",
+                tips: "pull band down to chest, squeeze lats at bottom. control the return."
             },
             {
-                name: "Bicep Curls",
-                description: "Classic isolation exercise for biceps.",
+                name: "bicep curls",
+                description: "classic isolation exercise for biceps.",
                 weightRange: "5-12 lbs per dumbbell",
-                tips: "Keep elbows at sides. Curl with control, squeeze at top, lower slowly."
+                tips: "keep elbows at sides. curl with control, squeeze at top, lower slowly."
             },
             {
-                name: "Hammer Curls",
-                description: "Targets biceps and forearms with neutral grip.",
+                name: "hammer curls",
+                description: "targets biceps and forearms with neutral grip.",
                 weightRange: "5-12 lbs per dumbbell",
-                tips: "Keep palms facing each other. Curl up without rotating wrists."
+                tips: "keep palms facing each other. curl up without rotating wrists."
             }
         ]
     },
     3: {
-        title: "Day 3 - Legs & Shoulders",
+        title: "day 3 - legs & shoulders",
         exercises: [
             {
-                name: "Bodyweight Squats",
-                description: "Fundamental leg exercise targeting quads, glutes, and hamstrings.",
-                weightRange: "Bodyweight",
-                tips: "Feet shoulder-width apart. Lower until thighs parallel to ground, drive through heels."
+                name: "bodyweight squats",
+                description: "fundamental leg exercise targeting quads, glutes, and hamstrings.",
+                weightRange: "bodyweight",
+                tips: "feet shoulder-width apart. lower until thighs parallel to ground, drive through heels."
             },
             {
-                name: "Goblet Squats",
-                description: "Squat variation holding weight at chest level.",
+                name: "goblet squats",
+                description: "squat variation holding weight at chest level.",
                 weightRange: "8-20 lbs dumbbell",
-                tips: "Hold dumbbell at chest. Keep torso upright throughout the movement."
+                tips: "hold dumbbell at chest. keep torso upright throughout the movement."
             },
             {
-                name: "Lunges",
-                description: "Unilateral leg exercise for strength and balance.",
-                weightRange: "Bodyweight or 5-10 lbs per hand",
-                tips: "Step forward, lower back knee toward ground. Push off front foot to return."
+                name: "lunges",
+                description: "unilateral leg exercise for strength and balance.",
+                weightRange: "bodyweight or 5-10 lbs per hand",
+                tips: "step forward, lower back knee toward ground. push off front foot to return."
             },
             {
-                name: "Shoulder Press",
-                description: "Overhead pressing movement for shoulders.",
+                name: "shoulder press",
+                description: "overhead pressing movement for shoulders.",
                 weightRange: "5-12 lbs per dumbbell",
-                tips: "Press dumbbells overhead, keep core tight. Lower to shoulder level with control."
+                tips: "press dumbbells overhead, keep core tight. lower to shoulder level with control."
             },
             {
-                name: "Lateral Raises",
-                description: "Isolation exercise for shoulder development.",
+                name: "lateral raises",
+                description: "isolation exercise for shoulder development.",
                 weightRange: "3-8 lbs per dumbbell",
-                tips: "Raise arms to sides until parallel to ground. Control the weight down slowly."
+                tips: "raise arms to sides until parallel to ground. control the weight down slowly."
             },
             {
-                name: "Glute Bridges",
-                description: "Targets glutes and hamstrings effectively.",
-                weightRange: "Bodyweight or 8-15 lbs on hips",
-                tips: "Squeeze glutes at top, hold for a second. Lower slowly with control."
+                name: "glute bridges",
+                description: "targets glutes and hamstrings effectively.",
+                weightRange: "bodyweight or 8-15 lbs on hips",
+                tips: "squeeze glutes at top, hold for a second. lower slowly with control."
             }
         ]
     }
@@ -318,13 +318,13 @@ function importProgress(event) {
                 workoutProgress = data.progress;
                 workoutHistory = data.history;
                 saveProgress();
-                alert('Progress imported successfully!');
+                alert('progress imported successfully!');
                 location.reload();
             } else {
-                alert('Invalid backup file format.');
+                alert('invalid backup file format.');
             }
         } catch (error) {
-            alert('Error reading backup file.');
+            alert('error reading backup file.');
         }
     };
     reader.readAsText(file);
@@ -382,15 +382,15 @@ function generateHistoryStats() {
     statsContainer.innerHTML = `
         <div class="stat-card">
             <span class="stat-number">${totalWorkouts}</span>
-            <div class="stat-label">Total Workouts</div>
+            <div class="stat-label">total workouts</div>
         </div>
         <div class="stat-card">
             <span class="stat-number">${uniqueDays}</span>
-            <div class="stat-label">Days Active</div>
+            <div class="stat-label">days active</div>
         </div>
         <div class="stat-card">
             <span class="stat-number">${thisWeek}</span>
-            <div class="stat-label">This Week</div>
+            <div class="stat-label">this week</div>
         </div>
     `;
 }
@@ -399,7 +399,7 @@ function generateHistoryList() {
     const listContainer = document.getElementById('history-list');
     
     if (workoutHistory.length === 0) {
-        listContainer.innerHTML = '<p style="text-align: center; color: #666;">No workout history yet. Complete your first workout!</p>';
+        listContainer.innerHTML = '<p style="text-align: center; color: #666;">no workout history yet. complete your first workout!</p>';
         return;
     }
     
@@ -432,9 +432,9 @@ function formatDate(dateString) {
     yesterday.setDate(yesterday.getDate() - 1);
     
     if (date.toDateString() === today.toDateString()) {
-        return 'Today';
+        return 'today';
     } else if (date.toDateString() === yesterday.toDateString()) {
-        return 'Yesterday';
+        return 'yesterday';
     } else {
         return date.toLocaleDateString('en-US', { 
             weekday: 'short', 
@@ -446,7 +446,7 @@ function formatDate(dateString) {
 
 // Reset progress function
 function resetProgress() {
-    if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+    if (confirm('are you sure you want to reset all progress? this cannot be undone.')) {
         localStorage.removeItem('fitnessProgress');
         localStorage.removeItem('fitnessHistory');
         localStorage.removeItem('exerciseSettings');
@@ -456,15 +456,15 @@ function resetProgress() {
 
 // Fix data issues function
 function fixDataIssues() {
-    if (confirm('This will fix any data compatibility issues. Your progress will be preserved where possible. Continue?')) {
+    if (confirm('this will fix any data compatibility issues. your progress will be preserved where possible. continue?')) {
         try {
             // Clear and reinitialize all data structures
             resetToDefaults();
-            alert('Data issues fixed! The app should work normally now.');
+            alert('data issues fixed! the app should work normally now.');
             location.reload();
         } catch (error) {
             console.error('Error fixing data issues:', error);
-            alert('Unable to fix automatically. Try "Reset Progress" if problems persist.');
+            alert('unable to fix automatically. try "reset progress" if problems persist.');
         }
     }
 }
@@ -563,10 +563,10 @@ function showExerciseDetails(exerciseIndex) {
         // Update description
         const descriptionEl = document.getElementById('exercise-description');
         descriptionEl.innerHTML = `
-            <h4>How to perform:</h4>
+            <h4>how to perform:</h4>
             <p>${exercise.description}</p>
-            <p><strong>Tips:</strong> ${exercise.tips}</p>
-            <p><strong>Original weight range:</strong> ${exercise.weightRange}</p>
+            <p><strong>tips:</strong> ${exercise.tips}</p>
+            <p><strong>original weight range:</strong> ${exercise.weightRange}</p>
         `;
         
         // Generate set tracker
@@ -583,7 +583,7 @@ function showExerciseDetails(exerciseIndex) {
         
     } catch (error) {
         console.error('Error showing exercise details:', error);
-        alert('Error loading exercise. Please try refreshing the page.');
+        alert('error loading exercise. please try refreshing the page.');
     }
 }
 
@@ -638,7 +638,7 @@ function generateSetTracker(exerciseIndex) {
             }
             
             setItem.innerHTML = `
-                <div class="set-number">Set ${i + 1}</div>
+                <div class="set-number">set ${i + 1}</div>
                 <div class="set-checkbox">${setItem.classList.contains('completed') ? '✓' : '○'}</div>
             `;
             
@@ -657,7 +657,7 @@ function generateSetTracker(exerciseIndex) {
         console.error('Error generating set tracker:', error);
         // Fallback: create a basic 4-set tracker
         const setsGrid = document.getElementById('sets-grid');
-        setsGrid.innerHTML = '<p style="text-align: center; color: #666;">Error loading set tracker. Please refresh the page.</p>';
+        setsGrid.innerHTML = '<p style="text-align: center; color: #666;">error loading set tracker. please refresh the page.</p>';
     }
 }
 
@@ -709,9 +709,9 @@ function updateSetProgress(exerciseIndex) {
     if (workoutProgress[currentDay][exerciseIndex] && 
         workoutProgress[currentDay][exerciseIndex].completed) {
         progress.innerHTML = `
-            <strong>Exercise Complete! Great job!</strong>
+            <strong>exercise complete! great job!</strong>
             <button class="back-to-exercises-btn" onclick="showWorkoutDetails()" style="margin-top: 10px; padding: 8px 16px; background: #000000; color: #ffffff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
-                Back to Exercises
+                back to exercises
             </button>
         `;
         progress.style.background = '#000000';
@@ -792,9 +792,9 @@ function showExerciseCompletionFeedback() {
     
     const progress = document.getElementById('exercise-progress');
     progress.innerHTML = `
-        <strong>Exercise Complete! Great job!</strong>
+        <strong>exercise complete! great job!</strong>
         <button class="back-to-exercises-btn" onclick="showWorkoutDetails()" style="margin-top: 10px; padding: 8px 16px; background: #000000; color: #ffffff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
-            Back to Exercises
+            back to exercises
         </button>
     `;
     progress.style.background = '#000000';
@@ -820,7 +820,7 @@ function showWorkoutCompleteModal() {
     addToHistory(currentDay, totalExercises);
     
     document.getElementById('completion-message').textContent = 
-        `Amazing job! You've completed all exercises for ${dayTitle}.`;
+        `amazing job! you've completed all exercises for ${dayTitle}.`;
     
     workoutCompleteModal.style.display = 'flex';
 }

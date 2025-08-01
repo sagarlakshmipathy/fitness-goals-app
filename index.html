@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bubby Fitness</title>
+    <title>bubby fitness</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,9 +11,9 @@
         <header>
             <div class="header-content">
                 <div class="logo-container">
-                    <img src="cat-logo.png" alt="Bubby Fitness Logo" class="logo" id="logo">
+                    <img src="cat-logo.png" alt="bubby fitness logo" class="logo" id="logo">
                     <span class="cat-face" id="cat-face">ᵔᴥᵔ</span>
-                    <h1>Bubby Fitness</h1>
+                    <h1>bubby fitness</h1>
                 </div>
             </div>
             <div class="settings-menu">
@@ -30,32 +30,32 @@
         <main>
             <div class="day-selection">
                 <div class="day-card" data-day="1">
-                    <h3>Day 1</h3>
-                    <p>Chest & Triceps</p>
+                    <h3>day 1</h3>
+                    <p>chest & triceps</p>
                 </div>
                 <div class="day-card" data-day="2">
-                    <h3>Day 2</h3>
-                    <p>Lats & Biceps</p>
+                    <h3>day 2</h3>
+                    <p>lats & biceps</p>
                 </div>
                 <div class="day-card" data-day="3">
-                    <h3>Day 3</h3>
-                    <p>Legs & Shoulders</p>
+                    <h3>day 3</h3>
+                    <p>legs & shoulders</p>
                 </div>
             </div>
 
             <div class="workout-details" id="workout-details" style="display: none;">
-                <div class="back-button" id="back-button">← Back to Days</div>
+                <div class="back-button" id="back-button">← back to days</div>
                 <h2 id="workout-title"></h2>
                 <div class="exercises-list" id="exercises-list"></div>
             </div>
 
             <div class="exercise-details" id="exercise-details" style="display: none;">
-                <div class="back-button" id="exercise-back-button">← Back to Exercises</div>
+                <div class="back-button" id="exercise-back-button">← back to exercises</div>
                 <div class="exercise-card">
                     <h3 id="exercise-name"></h3>
                     <div class="exercise-info">
                         <div class="info-item">
-                            <span class="label">Sets:</span>
+                            <span class="label">sets:</span>
                             <div class="adjustable-value">
                                 <button class="adjust-btn" id="sets-minus">−</button>
                                 <span class="value" id="sets">4</span>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="info-item">
-                            <span class="label">Reps:</span>
+                            <span class="label">reps:</span>
                             <div class="adjustable-value">
                                 <button class="adjust-btn" id="reps-minus">−</button>
                                 <span class="value" id="reps">8</span>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="info-item">
-                            <span class="label">Weight (lbs):</span>
+                            <span class="label">weight (lbs):</span>
                             <div class="adjustable-value">
                                 <button class="adjust-btn" id="weight-minus">−</button>
                                 <span class="value" id="weight">10.0</span>
@@ -82,7 +82,7 @@
                     
                     <!-- Set Tracker -->
                     <div class="set-tracker" id="set-tracker">
-                        <h4>Track Your Sets:</h4>
+                        <h4>track your sets:</h4>
                         <div class="sets-grid" id="sets-grid">
                             <!-- Sets will be generated dynamically -->
                         </div>
@@ -97,28 +97,28 @@
 
             <!-- Settings Page -->
             <div class="settings-page" id="settings-page" style="display: none;">
-                <div class="back-button" id="settings-back-button">← Back to Workouts</div>
-                <h2>Settings</h2>
+                <div class="back-button" id="settings-back-button">← back to workouts</div>
+                <h2>settings</h2>
                 <div class="settings-section">
-                    <h3>Data Management</h3>
+                    <h3>data management</h3>
                     <div class="settings-buttons">
-                        <button class="setting-btn" onclick="exportProgress()">Export Progress</button>
-                        <label for="import-file" class="setting-btn">Import Progress</label>
+                        <button class="setting-btn" onclick="exportProgress()">export progress</button>
+                        <label for="import-file" class="setting-btn">import progress</label>
                         <input type="file" id="import-file" accept=".json" onchange="importProgress(event)" style="display: none;">
-                        <button class="setting-btn" onclick="fixDataIssues()">Fix Data Issues</button>
-                        <button class="setting-btn danger" onclick="resetProgress()">Reset All Progress</button>
+                        <button class="setting-btn" onclick="fixDataIssues()">fix data issues</button>
+                        <button class="setting-btn danger" onclick="resetProgress()">reset all progress</button>
                     </div>
                 </div>
                 <div class="settings-section">
-                    <h3>Workout History</h3>
-                    <button class="setting-btn" onclick="showHistory()">View Workout History</button>
+                    <h3>workout history</h3>
+                    <button class="setting-btn" onclick="showHistory()">view workout history</button>
                 </div>
             </div>
 
             <!-- History View -->
             <div class="history-view" id="history-view" style="display: none;">
-                <div class="back-button" id="history-back-button">← Back to Settings</div>
-                <h2>Workout History</h2>
+                <div class="back-button" id="history-back-button">← back to settings</div>
+                <h2>workout history</h2>
                 <div class="history-stats" id="history-stats"></div>
                 <div class="history-list" id="history-list"></div>
             </div>
@@ -126,9 +126,9 @@
             <!-- Workout Complete Modal -->
             <div class="modal" id="workout-complete-modal" style="display: none;">
                 <div class="modal-content">
-                    <h2>Workout Complete!</h2>
-                    <p id="completion-message">Amazing job! You've completed all exercises for today.</p>
-                    <button class="btn-primary" id="close-modal">Continue</button>
+                    <h2>workout complete!</h2>
+                    <p id="completion-message">amazing job! you've completed all exercises for today.</p>
+                    <button class="btn-primary" id="close-modal">continue</button>
                 </div>
             </div>
         </main>
