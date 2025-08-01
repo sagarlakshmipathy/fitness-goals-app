@@ -850,4 +850,27 @@ function updateDayCompletionStatus() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeProgress();
     showDaySelection();
+    initializeLogo();
 });
+
+// Logo initialization
+function initializeLogo() {
+    const logo = document.getElementById('logo');
+    
+    // Try to load the logo image
+    logo.onload = function() {
+        logo.classList.add('loaded');
+    };
+    
+    // If logo fails to load, hide it gracefully
+    logo.onerror = function() {
+        logo.style.display = 'none';
+    };
+    
+    // Set a timeout to hide logo if it doesn't load quickly
+    setTimeout(() => {
+        if (!logo.complete || logo.naturalWidth === 0) {
+            logo.style.display = 'none';
+        }
+    }, 1000);
+}
