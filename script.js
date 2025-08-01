@@ -339,6 +339,7 @@ closeModalButton.addEventListener('click', closeModal);
 // Settings menu listeners
 document.getElementById('settings-back-button').addEventListener('click', showDaySelection);
 document.getElementById('history-back-button').addEventListener('click', showSettingsPage);
+document.getElementById('detailed-workouts-back-button').addEventListener('click', showHistory);
 
 // Adjustment button listeners
 document.getElementById('sets-minus').addEventListener('click', () => adjustValue('sets', -1));
@@ -364,13 +365,33 @@ function showHistory() {
     workoutDetails.style.display = 'none';
     exerciseDetails.style.display = 'none';
     document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'none';
     document.getElementById('history-view').style.display = 'block';
     
     // Generate history stats
     generateHistoryStats();
+}
+
+// Show detailed workouts list
+function showDetailedWorkouts(filter) {
+    // Hide other views
+    daySelection.style.display = 'none';
+    workoutDetails.style.display = 'none';
+    exerciseDetails.style.display = 'none';
+    document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('history-view').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'block';
     
-    // Generate history list
-    generateHistoryList();
+    // Set title based on filter
+    const titleElement = document.getElementById('detailed-workouts-title');
+    if (filter === 'all') {
+        titleElement.textContent = 'all workouts';
+    } else if (filter === 'week') {
+        titleElement.textContent = 'this week\'s workouts';
+    }
+    
+    // Generate detailed workout list
+    generateDetailedWorkoutsList(filter);
 }
 
 function generateHistoryStats() {
@@ -380,7 +401,7 @@ function generateHistoryStats() {
     const thisWeek = getThisWeekWorkouts();
     
     statsContainer.innerHTML = `
-        <div class="stat-card">
+        <div class="stat-card clickable" onclick="showDetailedWorkouts('all')">
             <span class="stat-number">${totalWorkouts}</span>
             <div class="stat-label">total workouts</div>
         </div>
@@ -388,23 +409,41 @@ function generateHistoryStats() {
             <span class="stat-number">${uniqueDays}</span>
             <div class="stat-label">days active</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card clickable" onclick="showDetailedWorkouts('week')">
             <span class="stat-number">${thisWeek}</span>
             <div class="stat-label">this week</div>
         </div>
     `;
 }
 
-function generateHistoryList() {
-    const listContainer = document.getElementById('history-list');
+function generateDetailedWorkoutsList(filter) {
+    const listContainer = document.getElementById('detailed-workouts-list');
     
     if (workoutHistory.length === 0) {
         listContainer.innerHTML = '<p style="text-align: center; color: #666;">no workout history yet. complete your first workout!</p>';
         return;
     }
     
+    // Filter workouts based on the filter type
+    let filteredHistory = [...workoutHistory];
+    if (filter === 'week') {
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        filteredHistory = workoutHistory.filter(entry => 
+            new Date(entry.date) >= oneWeekAgo
+        );
+    }
+    
+    if (filteredHistory.length === 0) {
+        const message = filter === 'week' ? 
+            'no workouts this week yet. time to get started!' : 
+            'no workout history yet. complete your first workout!';
+        listContainer.innerHTML = `<p style="text-align: center; color: #666;">${message}</p>`;
+        return;
+    }
+    
     // Sort by date (newest first)
-    const sortedHistory = [...workoutHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortedHistory = filteredHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
     
     listContainer.innerHTML = sortedHistory.map(entry => `
         <div class="history-item">

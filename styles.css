@@ -207,6 +207,22 @@ header p {
     border-radius: 4px;
     padding: 15px;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+}
+
+.stat-card.clickable {
+    cursor: pointer;
+}
+
+.stat-card.clickable:hover {
+    background: #e0e0e0;
+    border-color: #b0b0b0;
 }
 
 .stat-number {
@@ -244,6 +260,28 @@ header p {
 .history-details {
     color: #666666;
     font-size: 0.9rem;
+}
+
+/* Detailed Workouts View */
+.detailed-workouts-view {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 25px;
+    min-height: 70vh;
+}
+
+.detailed-workouts-view h2 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    color: #000000;
+    text-align: center;
+    font-weight: 600;
+}
+
+.detailed-workouts-list {
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .day-selection {
