@@ -337,7 +337,6 @@ exerciseBackButton.addEventListener('click', showWorkoutDetails);
 closeModalButton.addEventListener('click', closeModal);
 
 // Settings menu listeners
-document.getElementById('settings-btn').addEventListener('click', toggleSettings);
 document.getElementById('settings-back-button').addEventListener('click', showDaySelection);
 document.getElementById('history-back-button').addEventListener('click', showSettingsPage);
 
@@ -349,14 +348,7 @@ document.getElementById('reps-plus').addEventListener('click', () => adjustValue
 document.getElementById('weight-minus').addEventListener('click', () => adjustValue('weight', -2.5));
 document.getElementById('weight-plus').addEventListener('click', () => adjustValue('weight', 2.5));
 
-function toggleSettings() {
-    const dropdown = document.getElementById('settings-dropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-}
-
 function showSettingsPage() {
-    document.getElementById('settings-dropdown').style.display = 'none';
-    
     // Hide other views
     daySelection.style.display = 'none';
     workoutDetails.style.display = 'none';
@@ -365,22 +357,13 @@ function showSettingsPage() {
     document.getElementById('settings-page').style.display = 'block';
 }
 
-// Close settings when clicking outside
-document.addEventListener('click', function(event) {
-    const settingsMenu = document.querySelector('.settings-menu');
-    if (!settingsMenu.contains(event.target)) {
-        document.getElementById('settings-dropdown').style.display = 'none';
-    }
-});
-
 // Show workout history
 function showHistory() {
-    document.getElementById('settings-dropdown').style.display = 'none';
-    
     // Hide other views
     daySelection.style.display = 'none';
     workoutDetails.style.display = 'none';
     exerciseDetails.style.display = 'none';
+    document.getElementById('settings-page').style.display = 'none';
     document.getElementById('history-view').style.display = 'block';
     
     // Generate history stats
