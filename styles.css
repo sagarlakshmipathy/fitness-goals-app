@@ -31,18 +31,21 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    justify-content: center;
 }
 
 .logo {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 /* Hide logo initially if image fails to load */
@@ -53,6 +56,13 @@ header {
 /* Show logo when image loads successfully */
 .logo.loaded {
     display: block;
+}
+
+/* Cat face fallback */
+.cat-face {
+    font-size: 20px;
+    line-height: 1;
+    margin-right: 2px;
 }
 
 header h1 {

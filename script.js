@@ -856,21 +856,27 @@ document.addEventListener('DOMContentLoaded', () => {
 // Logo initialization
 function initializeLogo() {
     const logo = document.getElementById('logo');
+    const catFace = document.getElementById('cat-face');
     
     // Try to load the logo image
     logo.onload = function() {
-        logo.classList.add('loaded');
+        if (logo.naturalWidth > 0) {
+            logo.classList.add('loaded');
+            catFace.style.display = 'none'; // Hide fallback when image loads
+        }
     };
     
-    // If logo fails to load, hide it gracefully
+    // If logo fails to load, show cat face fallback
     logo.onerror = function() {
         logo.style.display = 'none';
+        catFace.style.display = 'inline'; // Show fallback
     };
     
-    // Set a timeout to hide logo if it doesn't load quickly
+    // Set a timeout to show fallback if image doesn't load quickly
     setTimeout(() => {
         if (!logo.complete || logo.naturalWidth === 0) {
             logo.style.display = 'none';
+            catFace.style.display = 'inline';
         }
-    }, 1000);
+    }, 500);
 }
