@@ -206,7 +206,7 @@ function migrateProgressData() {
                     // Check if it's the old fixed-length format
                     if (progress.sets.length === 4 && progress.sets.every(s => typeof s === 'boolean')) {
                         // This is the old format, keep it as is but ensure it's valid
-                        continue;
+                        return;
                     }
                 }
                 // If invalid, reset this exercise
