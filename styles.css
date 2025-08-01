@@ -96,6 +96,71 @@ header p {
     margin-bottom: 0;
 }
 
+/* Settings Page */
+.settings-page {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.settings-page h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #333;
+    text-align: center;
+}
+
+.settings-section {
+    margin-bottom: 30px;
+}
+
+.settings-section h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e6f3ff;
+}
+
+.settings-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-btn {
+    background: #f8f9ff;
+    border: 2px solid #e6f3ff;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+.setting-btn:hover {
+    background: #e6f3ff;
+    border-color: #667eea;
+    transform: translateY(-1px);
+}
+
+.setting-btn.danger {
+    background: #ffe6e6;
+    border-color: #ffcccc;
+    color: #b22222;
+}
+
+.setting-btn.danger:hover {
+    background: #ffcccc;
+    border-color: #b22222;
+}
+
 /* History View */
 .history-view {
     background: white;

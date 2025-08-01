@@ -338,7 +338,8 @@ closeModalButton.addEventListener('click', closeModal);
 
 // Settings menu listeners
 document.getElementById('settings-btn').addEventListener('click', toggleSettings);
-document.getElementById('history-back-button').addEventListener('click', showDaySelection);
+document.getElementById('settings-back-button').addEventListener('click', showDaySelection);
+document.getElementById('history-back-button').addEventListener('click', showSettingsPage);
 
 // Adjustment button listeners
 document.getElementById('sets-minus').addEventListener('click', () => adjustValue('sets', -1));
@@ -351,6 +352,17 @@ document.getElementById('weight-plus').addEventListener('click', () => adjustVal
 function toggleSettings() {
     const dropdown = document.getElementById('settings-dropdown');
     dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+function showSettingsPage() {
+    document.getElementById('settings-dropdown').style.display = 'none';
+    
+    // Hide other views
+    daySelection.style.display = 'none';
+    workoutDetails.style.display = 'none';
+    exerciseDetails.style.display = 'none';
+    document.getElementById('history-view').style.display = 'none';
+    document.getElementById('settings-page').style.display = 'block';
 }
 
 // Close settings when clicking outside
