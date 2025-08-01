@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Goals - 3 Day Workout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💪 Fitness Goals</h1>
+            <p>Your 3-Day Workout Plan</p>
+            <div class="settings-menu">
+                <button class="settings-btn" id="settings-btn">⚙️</button>
+                <div class="settings-dropdown" id="settings-dropdown" style="display: none;">
+                    <button onclick="exportProgress()">📤 Export Progress</button>
+                    <label for="import-file">📥 Import Progress</label>
+                    <input type="file" id="import-file" accept=".json" onchange="importProgress(event)" style="display: none;">
+                    <button onclick="showHistory()">📊 View History</button>
+                    <button onclick="resetProgress()">🔄 Reset Progress</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="day-selection">
+                <div class="day-card" data-day="1">
+                    <h3>Day 1</h3>
+                    <p>Chest & Triceps</p>
+                    <div class="muscle-icons">🔥</div>
+                </div>
+                <div class="day-card" data-day="2">
+                    <h3>Day 2</h3>
+                    <p>Lats & Biceps</p>
+                    <div class="muscle-icons">💪</div>
+                </div>
+                <div class="day-card" data-day="3">
+                    <h3>Day 3</h3>
+                    <p>Legs & Shoulders</p>
+                    <div class="muscle-icons">🦵</div>
+                </div>
+            </div>
+
+            <div class="workout-details" id="workout-details" style="display: none;">
+                <div class="back-button" id="back-button">← Back to Days</div>
+                <h2 id="workout-title"></h2>
+                <div class="exercises-list" id="exercises-list"></div>
+            </div>
+
+            <div class="exercise-details" id="exercise-details" style="display: none;">
+                <div class="back-button" id="exercise-back-button">← Back to Exercises</div>
+                <div class="exercise-card">
+                    <h3 id="exercise-name"></h3>
+                    <div class="exercise-info">
+                        <div class="info-item">
+                            <span class="label">Sets:</span>
+                            <span class="value" id="sets">4</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Reps:</span>
+                            <span class="value" id="reps">8</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Weight Range:</span>
+                            <span class="value" id="weight-range"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Set Tracker -->
+                    <div class="set-tracker" id="set-tracker">
+                        <h4>Track Your Sets:</h4>
+                        <div class="sets-grid" id="sets-grid">
+                            <!-- Sets will be generated dynamically -->
+                        </div>
+                        <div class="exercise-progress" id="exercise-progress">
+                            <span id="completed-sets">0</span> of <span id="total-sets">4</span> sets completed
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-description" id="exercise-description"></div>
+                </div>
+            </div>
+
+            <!-- History View -->
+            <div class="history-view" id="history-view" style="display: none;">
+                <div class="back-button" id="history-back-button">← Back to Workouts</div>
+                <h2>Workout History</h2>
+                <div class="history-stats" id="history-stats"></div>
+                <div class="history-list" id="history-list"></div>
+            </div>
+
+            <!-- Workout Complete Modal -->
+            <div class="modal" id="workout-complete-modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="celebration">🎉</div>
+                    <h2>Workout Complete!</h2>
+                    <p id="completion-message">Amazing job! You've completed all exercises for today.</p>
+                    <button class="btn-primary" id="close-modal">Continue</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
