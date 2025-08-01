@@ -725,7 +725,12 @@ function updateSetProgress(exerciseIndex) {
     // Check if exercise is completed
     if (workoutProgress[currentDay][exerciseIndex] && 
         workoutProgress[currentDay][exerciseIndex].completed) {
-        progress.innerHTML = '<strong>Exercise Complete! Great job!</strong>';
+        progress.innerHTML = `
+            <strong>Exercise Complete! Great job!</strong>
+            <button class="back-to-exercises-btn" onclick="showWorkoutDetails()" style="margin-top: 10px; padding: 8px 16px; background: #000000; color: #ffffff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+                Back to Exercises
+            </button>
+        `;
         progress.style.background = '#000000';
         progress.style.color = '#ffffff';
     } else {
@@ -803,7 +808,12 @@ function showExerciseCompletionFeedback() {
     tracker.style.borderColor = '#000000';
     
     const progress = document.getElementById('exercise-progress');
-    progress.innerHTML = '<strong>Exercise Complete! Great job!</strong>';
+    progress.innerHTML = `
+        <strong>Exercise Complete! Great job!</strong>
+        <button class="back-to-exercises-btn" onclick="showWorkoutDetails()" style="margin-top: 10px; padding: 8px 16px; background: #000000; color: #ffffff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+            Back to Exercises
+        </button>
+    `;
     progress.style.background = '#000000';
     progress.style.color = '#ffffff';
 }

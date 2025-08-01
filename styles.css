@@ -50,8 +50,7 @@ header p {
     background: #f5f5f5;
     border: 1px solid #d0d0d0;
     color: #000000;
-    font-size: 0.9rem;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -60,6 +59,19 @@ header p {
 .settings-btn:hover {
     background: #e0e0e0;
     border-color: #b0b0b0;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.hamburger div {
+    width: 18px;
+    height: 2px;
+    background: #000000;
+    transition: all 0.2s ease;
 }
 
 .settings-dropdown {
@@ -479,6 +491,10 @@ header p {
     padding: 10px;
     background: #f0f0f0;
     border-radius: 4px;
+}
+
+.back-to-exercises-btn:hover {
+    background: #333333 !important;
 }
 
 /* Modal Styles */
