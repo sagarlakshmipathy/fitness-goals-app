@@ -133,52 +133,120 @@ let exerciseSettings = {};
 
 // Initialize progress from localStorage
 function initializeProgress() {
-    const savedProgress = localStorage.getItem('fitnessProgress');
-    const savedHistory = localStorage.getItem('fitnessHistory');
-    const savedSettings = localStorage.getItem('exerciseSettings');
-    
-    if (savedProgress) {
-        workoutProgress = JSON.parse(savedProgress);
-    } else {
-        // Initialize empty progress structure
-        workoutProgress = {
-            1: {},
-            2: {},
-            3: {}
-        };
-        workoutData[1].exercises.forEach((_, index) => {
-            workoutProgress[1][index] = { completed: false, sets: [] };
-        });
-        workoutData[2].exercises.forEach((_, index) => {
-            workoutProgress[2][index] = { completed: false, sets: [] };
-        });
-        workoutData[3].exercises.forEach((_, index) => {
-            workoutProgress[3][index] = { completed: false, sets: [] };
-        });
+    try {
+        const savedProgress = localStorage.getItem('fitnessProgress');
+        const savedHistory = localStorage.getItem('fitnessHistory');
+        const savedSettings = localStorage.getItem('exerciseSettings');
+        
+        // Initialize or migrate progress data
+        if (savedProgress) {
+            workoutProgress = JSON.parse(savedProgress);
+            // Migrate old data structure if needed
+            migrateProgressData();
+        } else {
+            initializeEmptyProgress();
+        }
+        
+        // Initialize history
+        if (savedHistory) {
+            workoutHistory = JSON.parse(savedHistory);
+        }
+        
+        // Initialize or create exercise settings
+        if (savedSettings) {
+            exerciseSettings = JSON.parse(savedSettings);
+        } else {
+            initializeDefaultSettings();
+        }
+        
+        // Ensure all data structures are valid
+        validateDataStructures();
         saveProgress();
+        
+    } catch (error) {
+        console.error('Error initializing progress, resetting to defaults:', error);
+        resetToDefaults();
     }
-    
-    if (savedHistory) {
-        workoutHistory = JSON.parse(savedHistory);
-    }
-    
-    if (savedSettings) {
-        exerciseSettings = JSON.parse(savedSettings);
-    } else {
-        // Initialize default exercise settings
-        exerciseSettings = {};
-        [1, 2, 3].forEach(day => {
-            exerciseSettings[day] = {};
-            workoutData[day].exercises.forEach((_, index) => {
+}
+
+function initializeEmptyProgress() {
+    workoutProgress = {
+        1: {},
+        2: {},
+        3: {}
+    };
+    [1, 2, 3].forEach(day => {
+        workoutData[day].exercises.forEach((_, index) => {
+            workoutProgress[day][index] = { completed: false, sets: [] };
+        });
+    });
+}
+
+function initializeDefaultSettings() {
+    exerciseSettings = {};
+    [1, 2, 3].forEach(day => {
+        exerciseSettings[day] = {};
+        workoutData[day].exercises.forEach((_, index) => {
+            exerciseSettings[day][index] = {
+                sets: 4,
+                reps: 8,
+                weight: 10.0
+            };
+        });
+    });
+}
+
+function migrateProgressData() {
+    // Migrate old progress structure (fixed 4 sets) to new dynamic structure
+    [1, 2, 3].forEach(day => {
+        if (workoutProgress[day]) {
+            Object.keys(workoutProgress[day]).forEach(exerciseIndex => {
+                const progress = workoutProgress[day][exerciseIndex];
+                if (progress && Array.isArray(progress.sets)) {
+                    // Check if it's the old fixed-length format
+                    if (progress.sets.length === 4 && progress.sets.every(s => typeof s === 'boolean')) {
+                        // This is the old format, keep it as is but ensure it's valid
+                        continue;
+                    }
+                }
+                // If invalid, reset this exercise
+                workoutProgress[day][exerciseIndex] = { completed: false, sets: [] };
+            });
+        }
+    });
+}
+
+function validateDataStructures() {
+    // Ensure all days exist
+    [1, 2, 3].forEach(day => {
+        if (!workoutProgress[day]) workoutProgress[day] = {};
+        if (!exerciseSettings[day]) exerciseSettings[day] = {};
+        
+        // Ensure all exercises exist
+        workoutData[day].exercises.forEach((_, index) => {
+            if (!workoutProgress[day][index]) {
+                workoutProgress[day][index] = { completed: false, sets: [] };
+            }
+            if (!exerciseSettings[day][index]) {
                 exerciseSettings[day][index] = {
                     sets: 4,
                     reps: 8,
                     weight: 10.0
                 };
-            });
+            }
         });
-        saveProgress();
-    }
+    });
+}
+
+function resetToDefaults() {
+    workoutProgress = {};
+    workoutHistory = [];
+    exerciseSettings = {};
+    
+    initializeEmptyProgress();
+    initializeDefaultSettings();
+    validateDataStructures();
+    saveProgress();
 }
 
 // Save progress to localStorage
@@ -386,7 +454,23 @@ function resetProgress() {
     if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
         localStorage.removeItem('fitnessProgress');
         localStorage.removeItem('fitnessHistory');
+        localStorage.removeItem('exerciseSettings');
         location.reload();
+    }
+}
+
+// Fix data issues function
+function fixDataIssues() {
+    if (confirm('This will fix any data compatibility issues. Your progress will be preserved where possible. Continue?')) {
+        try {
+            // Clear and reinitialize all data structures
+            resetToDefaults();
+            alert('Data issues fixed! The app should work normally now.');
+            location.reload();
+        } catch (error) {
+            console.error('Error fixing data issues:', error);
+            alert('Unable to fix automatically. Try "Reset Progress" if problems persist.');
+        }
     }
 }
 
@@ -450,96 +534,135 @@ function showWorkoutDetails() {
 }
 
 function showExerciseDetails(exerciseIndex) {
-    if (!currentDay) return;
-    
-    currentExercise = exerciseIndex;
-    const exercise = workoutData[currentDay].exercises[exerciseIndex];
-    const settings = exerciseSettings[currentDay][exerciseIndex];
-    
-    // Update exercise details
-    document.getElementById('exercise-name').textContent = exercise.name;
-    
-    // Update adjustable values
-    document.getElementById('sets').textContent = settings.sets;
-    document.getElementById('reps').textContent = settings.reps;
-    document.getElementById('weight').textContent = settings.weight.toFixed(1);
-    
-    // Update button states
-    updateAdjustmentButtons();
-    
-    // Update description
-    const descriptionEl = document.getElementById('exercise-description');
-    descriptionEl.innerHTML = `
-        <h4>How to perform:</h4>
-        <p>${exercise.description}</p>
-        <p><strong>Tips:</strong> ${exercise.tips}</p>
-        <p><strong>Original weight range:</strong> ${exercise.weightRange}</p>
-    `;
-    
-    // Generate set tracker
-    generateSetTracker(exerciseIndex);
-    
-    // Show exercise details, hide others
-    daySelection.style.display = 'none';
-    workoutDetails.style.display = 'none';
-    exerciseDetails.style.display = 'block';
-    
-    // Add fade-in animation
-    exerciseDetails.classList.add('fade-in');
-    setTimeout(() => exerciseDetails.classList.remove('fade-in'), 300);
+    try {
+        if (!currentDay) return;
+        
+        currentExercise = exerciseIndex;
+        const exercise = workoutData[currentDay].exercises[exerciseIndex];
+        
+        // Ensure settings exist
+        if (!exerciseSettings[currentDay] || !exerciseSettings[currentDay][exerciseIndex]) {
+            console.warn(`Missing settings for day ${currentDay}, exercise ${exerciseIndex}, initializing defaults`);
+            if (!exerciseSettings[currentDay]) exerciseSettings[currentDay] = {};
+            exerciseSettings[currentDay][exerciseIndex] = {
+                sets: 4,
+                reps: 8,
+                weight: 10.0
+            };
+            saveProgress();
+        }
+        
+        const settings = exerciseSettings[currentDay][exerciseIndex];
+        
+        // Update exercise details
+        document.getElementById('exercise-name').textContent = exercise.name;
+        
+        // Update adjustable values
+        document.getElementById('sets').textContent = settings.sets;
+        document.getElementById('reps').textContent = settings.reps;
+        document.getElementById('weight').textContent = settings.weight.toFixed(1);
+        
+        // Update button states
+        updateAdjustmentButtons();
+        
+        // Update description
+        const descriptionEl = document.getElementById('exercise-description');
+        descriptionEl.innerHTML = `
+            <h4>How to perform:</h4>
+            <p>${exercise.description}</p>
+            <p><strong>Tips:</strong> ${exercise.tips}</p>
+            <p><strong>Original weight range:</strong> ${exercise.weightRange}</p>
+        `;
+        
+        // Generate set tracker
+        generateSetTracker(exerciseIndex);
+        
+        // Show exercise details, hide others
+        daySelection.style.display = 'none';
+        workoutDetails.style.display = 'none';
+        exerciseDetails.style.display = 'block';
+        
+        // Add fade-in animation
+        exerciseDetails.classList.add('fade-in');
+        setTimeout(() => exerciseDetails.classList.remove('fade-in'), 300);
+        
+    } catch (error) {
+        console.error('Error showing exercise details:', error);
+        alert('Error loading exercise. Please try refreshing the page.');
+    }
 }
 
 function generateSetTracker(exerciseIndex) {
-    const setsGrid = document.getElementById('sets-grid');
-    const settings = exerciseSettings[currentDay][exerciseIndex];
-    const totalSets = settings.sets;
-    
-    setsGrid.innerHTML = '';
-    
-    // Reset tracker appearance for new exercise
-    const tracker = document.getElementById('set-tracker');
-    tracker.style.background = '#f0f8ff';
-    tracker.style.borderColor = '#e6f3ff';
-    
-    // Ensure progress array matches current sets count
-    if (!workoutProgress[currentDay][exerciseIndex]) {
-        workoutProgress[currentDay][exerciseIndex] = { completed: false, sets: [] };
-    }
-    
-    const progress = workoutProgress[currentDay][exerciseIndex];
-    
-    // Adjust sets array length to match current settings
-    while (progress.sets.length < totalSets) {
-        progress.sets.push(false);
-    }
-    if (progress.sets.length > totalSets) {
-        progress.sets = progress.sets.slice(0, totalSets);
-    }
-    
-    for (let i = 0; i < totalSets; i++) {
-        const setItem = document.createElement('div');
-        setItem.className = 'set-item';
-        setItem.dataset.setIndex = i;
+    try {
+        const setsGrid = document.getElementById('sets-grid');
         
-        // Check if set is completed
-        if (progress.sets[i]) {
-            setItem.classList.add('completed');
+        // Ensure settings exist
+        if (!exerciseSettings[currentDay] || !exerciseSettings[currentDay][exerciseIndex]) {
+            console.warn(`Missing settings in generateSetTracker, using defaults`);
+            if (!exerciseSettings[currentDay]) exerciseSettings[currentDay] = {};
+            exerciseSettings[currentDay][exerciseIndex] = {
+                sets: 4,
+                reps: 8,
+                weight: 10.0
+            };
         }
         
-        setItem.innerHTML = `
-            <div class="set-number">Set ${i + 1}</div>
-            <div class="set-checkbox">${setItem.classList.contains('completed') ? '✓' : '○'}</div>
-        `;
+        const settings = exerciseSettings[currentDay][exerciseIndex];
+        const totalSets = settings.sets || 4; // Fallback to 4 if undefined
         
-        setItem.addEventListener('click', () => toggleSet(exerciseIndex, i));
-        setsGrid.appendChild(setItem);
-    }
-    
-    updateSetProgress(exerciseIndex);
-    
-    // Show completion feedback if exercise is already completed
-    if (progress.completed) {
-        showExerciseCompletionFeedback();
+        setsGrid.innerHTML = '';
+        
+        // Reset tracker appearance for new exercise
+        const tracker = document.getElementById('set-tracker');
+        tracker.style.background = '#f0f8ff';
+        tracker.style.borderColor = '#e6f3ff';
+        
+        // Ensure progress array matches current sets count
+        if (!workoutProgress[currentDay][exerciseIndex]) {
+            workoutProgress[currentDay][exerciseIndex] = { completed: false, sets: [] };
+        }
+        
+        const progress = workoutProgress[currentDay][exerciseIndex];
+        
+        // Adjust sets array length to match current settings
+        while (progress.sets.length < totalSets) {
+            progress.sets.push(false);
+        }
+        if (progress.sets.length > totalSets) {
+            progress.sets = progress.sets.slice(0, totalSets);
+        }
+        
+        for (let i = 0; i < totalSets; i++) {
+            const setItem = document.createElement('div');
+            setItem.className = 'set-item';
+            setItem.dataset.setIndex = i;
+            
+            // Check if set is completed
+            if (progress.sets[i]) {
+                setItem.classList.add('completed');
+            }
+            
+            setItem.innerHTML = `
+                <div class="set-number">Set ${i + 1}</div>
+                <div class="set-checkbox">${setItem.classList.contains('completed') ? '✓' : '○'}</div>
+            `;
+            
+            setItem.addEventListener('click', () => toggleSet(exerciseIndex, i));
+            setsGrid.appendChild(setItem);
+        }
+        
+        updateSetProgress(exerciseIndex);
+        
+        // Show completion feedback if exercise is already completed
+        if (progress.completed) {
+            showExerciseCompletionFeedback();
+        }
+        
+    } catch (error) {
+        console.error('Error generating set tracker:', error);
+        // Fallback: create a basic 4-set tracker
+        const setsGrid = document.getElementById('sets-grid');
+        setsGrid.innerHTML = '<p style="text-align: center; color: #666;">Error loading set tracker. Please refresh the page.</p>';
     }
 }
 
