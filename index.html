@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>💪 Fitness Goals</h1>
+            <h1>Fitness Goals</h1>
             <p>Your 3-Day Workout Plan</p>
             <div class="settings-menu">
-                <button class="settings-btn" id="settings-btn">⚙️</button>
+                <button class="settings-btn" id="settings-btn">Settings</button>
                 <div class="settings-dropdown" id="settings-dropdown" style="display: none;">
-                    <button onclick="showSettingsPage()">⚙️ Settings</button>
+                    <button onclick="showSettingsPage()">Settings</button>
                 </div>
             </div>
         </header>
@@ -24,17 +24,14 @@
                 <div class="day-card" data-day="1">
                     <h3>Day 1</h3>
                     <p>Chest & Triceps</p>
-                    <div class="muscle-icons">🔥</div>
                 </div>
                 <div class="day-card" data-day="2">
                     <h3>Day 2</h3>
                     <p>Lats & Biceps</p>
-                    <div class="muscle-icons">💪</div>
                 </div>
                 <div class="day-card" data-day="3">
                     <h3>Day 3</h3>
                     <p>Legs & Shoulders</p>
-                    <div class="muscle-icons">🦵</div>
                 </div>
             </div>
 
@@ -97,16 +94,16 @@
                 <div class="settings-section">
                     <h3>Data Management</h3>
                     <div class="settings-buttons">
-                        <button class="setting-btn" onclick="exportProgress()">📤 Export Progress</button>
-                        <label for="import-file" class="setting-btn">📥 Import Progress</label>
+                        <button class="setting-btn" onclick="exportProgress()">Export Progress</button>
+                        <label for="import-file" class="setting-btn">Import Progress</label>
                         <input type="file" id="import-file" accept=".json" onchange="importProgress(event)" style="display: none;">
-                        <button class="setting-btn" onclick="fixDataIssues()">🔧 Fix Data Issues</button>
-                        <button class="setting-btn danger" onclick="resetProgress()">🔄 Reset All Progress</button>
+                        <button class="setting-btn" onclick="fixDataIssues()">Fix Data Issues</button>
+                        <button class="setting-btn danger" onclick="resetProgress()">Reset All Progress</button>
                     </div>
                 </div>
                 <div class="settings-section">
                     <h3>Workout History</h3>
-                    <button class="setting-btn" onclick="showHistory()">📊 View Workout History</button>
+                    <button class="setting-btn" onclick="showHistory()">View Workout History</button>
                 </div>
             </div>
 
@@ -121,7 +118,6 @@
             <!-- Workout Complete Modal -->
             <div class="modal" id="workout-complete-modal" style="display: none;">
                 <div class="modal-content">
-                    <div class="celebration">🎉</div>
                     <h2>Workout Complete!</h2>
                     <p id="completion-message">Amazing job! You've completed all exercises for today.</p>
                     <button class="btn-primary" id="close-modal">Continue</button>

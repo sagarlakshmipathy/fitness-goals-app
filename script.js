@@ -626,8 +626,8 @@ function generateSetTracker(exerciseIndex) {
         
         // Reset tracker appearance for new exercise
         const tracker = document.getElementById('set-tracker');
-        tracker.style.background = '#f0f8ff';
-        tracker.style.borderColor = '#e6f3ff';
+        tracker.style.background = '#f8f8f8';
+        tracker.style.borderColor = '#e0e0e0';
         
         // Ensure progress array matches current sets count
         if (!workoutProgress[currentDay][exerciseIndex]) {
@@ -719,15 +719,15 @@ function updateSetProgress(exerciseIndex) {
     const progress = document.getElementById('exercise-progress');
     
     // Reset progress display style
-    progress.style.background = '#f8f9ff';
-    progress.style.color = '#667eea';
+    progress.style.background = '#f0f0f0';
+    progress.style.color = '#000000';
     
     // Check if exercise is completed
     if (workoutProgress[currentDay][exerciseIndex] && 
         workoutProgress[currentDay][exerciseIndex].completed) {
-        progress.innerHTML = '<strong>🎉 Exercise Complete! Great job!</strong>';
-        progress.style.background = '#4caf50';
-        progress.style.color = 'white';
+        progress.innerHTML = '<strong>Exercise Complete! Great job!</strong>';
+        progress.style.background = '#000000';
+        progress.style.color = '#ffffff';
     } else {
         progress.innerHTML = `<span id="completed-sets">${completedSets}</span> of <span id="total-sets">${settings.sets}</span> sets completed`;
     }
@@ -799,13 +799,13 @@ function checkExerciseCompletion(exerciseIndex) {
 
 function showExerciseCompletionFeedback() {
     const tracker = document.getElementById('set-tracker');
-    tracker.style.background = '#e8f5e8';
-    tracker.style.borderColor = '#4caf50';
+    tracker.style.background = '#f0f0f0';
+    tracker.style.borderColor = '#000000';
     
     const progress = document.getElementById('exercise-progress');
-    progress.innerHTML = '<strong>🎉 Exercise Complete! Great job!</strong>';
-    progress.style.background = '#4caf50';
-    progress.style.color = 'white';
+    progress.innerHTML = '<strong>Exercise Complete! Great job!</strong>';
+    progress.style.background = '#000000';
+    progress.style.color = '#ffffff';
 }
 
 function checkWorkoutCompletion() {
