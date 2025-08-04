@@ -123,7 +123,7 @@ const workoutCompleteModal = document.getElementById('workout-complete-modal');
 const closeModalButton = document.getElementById('close-modal');
 
 // Current state
-let currentDay = null;
+let currentDay = 1; // Start with day 1
 let currentExercise = null;
 
 // Progress tracking
@@ -331,15 +331,17 @@ function importProgress(event) {
 }
 
 // Event listeners
-daySelection.addEventListener('click', handleDaySelection);
-backButton.addEventListener('click', showDaySelection);
-exerciseBackButton.addEventListener('click', showWorkoutDetails);
+exerciseBackButton.addEventListener('click', showMainView);
 closeModalButton.addEventListener('click', closeModal);
 
 // Settings menu listeners
-document.getElementById('settings-back-button').addEventListener('click', showDaySelection);
+document.getElementById('settings-back-button').addEventListener('click', showMainView);
 document.getElementById('history-back-button').addEventListener('click', showSettingsPage);
 document.getElementById('detailed-workouts-back-button').addEventListener('click', showHistory);
+
+// Day switcher listeners
+document.getElementById('prev-day').addEventListener('click', switchToPreviousDay);
+document.getElementById('next-day').addEventListener('click', switchToNextDay);
 
 // Adjustment button listeners
 document.getElementById('sets-minus').addEventListener('click', () => adjustValue('sets', -1));
@@ -351,18 +353,70 @@ document.getElementById('weight-plus').addEventListener('click', () => adjustVal
 
 function showSettingsPage() {
     // Hide other views
-    daySelection.style.display = 'none';
-    workoutDetails.style.display = 'none';
+    document.getElementById('main-exercises-view').style.display = 'none';
     exerciseDetails.style.display = 'none';
     document.getElementById('history-view').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'none';
     document.getElementById('settings-page').style.display = 'block';
+}
+
+// Day switching functions
+function switchToPreviousDay() {
+    currentDay = currentDay === 1 ? 3 : currentDay - 1;
+    updateCurrentDayDisplay();
+    showMainView();
+}
+
+function switchToNextDay() {
+    currentDay = currentDay === 3 ? 1 : currentDay + 1;
+    updateCurrentDayDisplay();
+    showMainView();
+}
+
+function updateCurrentDayDisplay() {
+    const label = document.getElementById('current-day-label');
+    const workout = workoutData[currentDay];
+    label.textContent = workout.title;
+}
+
+// Determine the next day based on completion
+function getNextWorkoutDay() {
+    // Check if current day is complete
+    const currentDayExercises = workoutData[currentDay].exercises;
+    const allCurrentDayComplete = currentDayExercises.every((_, index) => 
+        workoutProgress[currentDay][index] && workoutProgress[currentDay][index].completed
+    );
+    
+    if (allCurrentDayComplete) {
+        // Move to next day
+        return currentDay === 3 ? 1 : currentDay + 1;
+    }
+    
+    return currentDay;
+}
+
+// Show main exercises view (replaces showDaySelection)
+function showMainView() {
+    // Auto-progress to next day if current day is complete
+    currentDay = getNextWorkoutDay();
+    updateCurrentDayDisplay();
+    
+    // Hide all other views
+    exerciseDetails.style.display = 'none';
+    document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('history-view').style.display = 'none';
+    document.getElementById('detailed-workouts-view').style.display = 'none';
+    document.getElementById('main-exercises-view').style.display = 'block';
+    
+    // Generate current day's exercises
+    generateMainExercisesList();
+    currentExercise = null;
 }
 
 // Show workout history
 function showHistory() {
     // Hide other views
-    daySelection.style.display = 'none';
-    workoutDetails.style.display = 'none';
+    document.getElementById('main-exercises-view').style.display = 'none';
     exerciseDetails.style.display = 'none';
     document.getElementById('settings-page').style.display = 'none';
     document.getElementById('detailed-workouts-view').style.display = 'none';
@@ -372,11 +426,37 @@ function showHistory() {
     generateHistoryStats();
 }
 
+// Generate exercises list for main view
+function generateMainExercisesList() {
+    const exercisesList = document.getElementById('main-exercises-list');
+    const workout = workoutData[currentDay];
+    
+    exercisesList.innerHTML = '';
+    
+    workout.exercises.forEach((exercise, index) => {
+        const exerciseItem = document.createElement('div');
+        exerciseItem.className = 'exercise-item';
+        exerciseItem.dataset.exerciseIndex = index;
+        
+        // Check if exercise is completed
+        if (workoutProgress[currentDay][index] && workoutProgress[currentDay][index].completed) {
+            exerciseItem.classList.add('completed');
+        }
+        
+        exerciseItem.innerHTML = `
+            <h4>${exercise.name}</h4>
+            <p>${exercise.description}</p>
+        `;
+        
+        exerciseItem.addEventListener('click', () => showExerciseDetails(index));
+        exercisesList.appendChild(exerciseItem);
+    });
+}
+
 // Show detailed workouts list
 function showDetailedWorkouts(filter) {
     // Hide other views
-    daySelection.style.display = 'none';
-    workoutDetails.style.display = 'none';
+    document.getElementById('main-exercises-view').style.display = 'none';
     exerciseDetails.style.display = 'none';
     document.getElementById('settings-page').style.display = 'none';
     document.getElementById('history-view').style.display = 'none';
@@ -508,14 +588,6 @@ function fixDataIssues() {
     }
 }
 
-function handleDaySelection(event) {
-    const dayCard = event.target.closest('.day-card');
-    if (!dayCard) return;
-    
-    const day = parseInt(dayCard.dataset.day);
-    currentDay = day;
-    showWorkoutDetails();
-}
 
 function showDaySelection() {
     daySelection.style.display = 'flex';
@@ -618,8 +690,7 @@ function showExerciseDetails(exerciseIndex) {
         generateSetTracker(exerciseIndex);
         
         // Show exercise details, hide others
-        daySelection.style.display = 'none';
-        workoutDetails.style.display = 'none';
+        document.getElementById('main-exercises-view').style.display = 'none';
         exerciseDetails.style.display = 'block';
         document.getElementById('settings-page').style.display = 'none';
         document.getElementById('history-view').style.display = 'none';
@@ -875,7 +946,7 @@ function showWorkoutCompleteModal() {
 
 function closeModal() {
     workoutCompleteModal.style.display = 'none';
-    showDaySelection();
+    showMainView();
 }
 
 function updateDayCompletionStatus() {
@@ -897,7 +968,7 @@ function updateDayCompletionStatus() {
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     initializeProgress();
-    showDaySelection();
+    showMainView();
     initializeLogo();
 });
 

@@ -16,6 +16,11 @@
                     <h1>bubby fitness</h1>
                 </div>
             </div>
+            <div class="day-switcher" id="day-switcher">
+                <button class="day-switch-btn" id="prev-day">‹</button>
+                <span class="current-day-label" id="current-day-label">day 1 - chest & triceps</span>
+                <button class="day-switch-btn" id="next-day">›</button>
+            </div>
             <div class="settings-menu">
                 <button class="settings-btn" id="settings-btn" onclick="showSettingsPage()">
                     <div class="hamburger">
@@ -28,25 +33,9 @@
         </header>
 
         <main>
-            <div class="day-selection">
-                <div class="day-card" data-day="1">
-                    <h3>day 1</h3>
-                    <p>chest & triceps</p>
-                </div>
-                <div class="day-card" data-day="2">
-                    <h3>day 2</h3>
-                    <p>lats & biceps</p>
-                </div>
-                <div class="day-card" data-day="3">
-                    <h3>day 3</h3>
-                    <p>legs & shoulders</p>
-                </div>
-            </div>
-
-            <div class="workout-details" id="workout-details" style="display: none;">
-                <div class="back-button" id="back-button">← back to days</div>
-                <h2 id="workout-title"></h2>
-                <div class="exercises-list" id="exercises-list"></div>
+            <!-- Main exercises view (replaces day selection) -->
+            <div class="main-exercises-view" id="main-exercises-view">
+                <div class="exercises-list" id="main-exercises-list"></div>
             </div>
 
             <div class="exercise-details" id="exercise-details" style="display: none;">
